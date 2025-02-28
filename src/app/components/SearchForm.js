@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { 
-  TextField, Button, Container, Typography, CircularProgress, 
+import {
+  TextField, Button, Container, Typography, CircularProgress,
   Box, Snackbar, Alert, List, ListItem, Paper, Select, MenuItem, FormControl, InputLabel
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -11,19 +11,10 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
-    primary: {
-      main: "#1976d2", 
-    },
-    secondary: {
-      main: "#d32f2f", 
-    },
-    background: {
-      default: "#121212", 
-      paper: "#1e1e1e", 
-    },
-    text: {
-      primary: "#ffffff", 
-    },
+    primary: { main: "#1976d2" },
+    secondary: { main: "#d32f2f" },
+    background: { default: "#121212", paper: "#1e1e1e" },
+    text: { primary: "#ffffff" },
   },
 });
 
@@ -50,8 +41,6 @@ const SearchForm = () => {
   const translateToMarathi = async (text) => {
     try {
       const response = await fetch(`/api/translate?text=${encodeURIComponent(text)}`);
-      console.log("Scrape API Response:", response.data);
-
       const data = await response.json();
       return data.transliterated;
     } catch (error) {
@@ -98,13 +87,12 @@ const SearchForm = () => {
     setLoading(false);
   };
 
-  // Function to download a single file
   const handleDownload = (link) => {
     const a = document.createElement("a");
     a.href = link;
-    a.target = "_blank"; 
-    a.rel = "noopener noreferrer"; // Security best practice
-    a.download = link.split("/").pop(); // Suggests downloading the file
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.download = link.split("/").pop();
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -118,23 +106,46 @@ const SearchForm = () => {
             Search Property Records
           </Typography>
           <form onSubmit={handleSubmit}>
-            {/* Year Dropdown */}
             <FormControl fullWidth margin="normal">
               <InputLabel>Year</InputLabel>
               <Select name="year" value={formData.year} onChange={handleChange}>
                 {years.map((year) => (
-                  <MenuItem key={year} value={year}>
-                    {year}
-                  </MenuItem>
+                  <MenuItem key={year} value={year}>{year}</MenuItem>
                 ))}
               </Select>
             </FormControl>
+            <TextField
+              fullWidth
+              margin="normal"
+              label="District"
+              name="district"
+              value={formData.district}
+              onChange={handleChange}
+              onBlur={() => translateFields()}
+            />
 
-            <TextField fullWidth margin="normal" label="District" name="district" value={formData.district} onChange={handleChange} />
-            <TextField fullWidth margin="normal" label="Tahsil" name="tahsil" value={formData.tahsil} onChange={handleChange} />
-            <TextField fullWidth margin="normal" label="Village" name="village" value={formData.village} onChange={handleChange} />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Tahsil"
+              name="tahsil"
+              value={formData.tahsil}
+              onChange={handleChange}
+              onBlur={() => translateFields()}
+            />
+
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Village"
+              name="village"
+              value={formData.village}
+              onChange={handleChange}
+              onBlur={() => translateFields()}
+            />
+
             <TextField fullWidth margin="normal" label="Property No" name="propertyNo" value={formData.propertyNo} onChange={handleChange} />
-            
+
             <Box mt={2} display="flex" justifyContent="center">
               <Button variant="contained" color="primary" type="submit" disabled={loading}>
                 {loading ? <CircularProgress size={24} /> : "Search"}
@@ -142,11 +153,7 @@ const SearchForm = () => {
             </Box>
           </form>
 
-          <Typography variant="h6" mt={3}>
-            Results:
-          </Typography>
-
-          {/* Display individual download buttons for each result, centered horizontally */}
+          <Typography variant="h6" mt={3}>Results:</Typography>
           {results.length > 0 ? (
             <List>
               {results.map((link, index) => (
@@ -158,14 +165,11 @@ const SearchForm = () => {
               ))}
             </List>
           ) : (
-            <Typography>No records found.</Typography>
+            <Typography></Typography>
           )}
 
-          {/* Snackbar for Error Messages */}
           <Snackbar open={!!errorMessage} autoHideDuration={4000} onClose={() => setErrorMessage("")}>
-            <Alert severity="error" onClose={() => setErrorMessage("")}>
-              {errorMessage}
-            </Alert>
+            <Alert severity="error" onClose={() => setErrorMessage("")}>{errorMessage}</Alert>
           </Snackbar>
         </Paper>
       </Container>
