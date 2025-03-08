@@ -64,9 +64,17 @@ export default async function handler(req, res) {
       }
     });
 
+<<<<<<< HEAD
     await page.evaluate(() => {
       window.onbeforeunload = null;
     });
+=======
+    // Override window.onbeforeunload to prevent JavaScript reloads
+    await page.evaluate(() => {
+      window.onbeforeunload = null;
+    });
+    // Close popup if exists
+>>>>>>> 5d02fc4 (Initial commit)
     await page.waitForSelector("body", { timeout: 40000 });
     try {
       await page.waitForSelector(".btnclose", { timeout: 7000 });
@@ -79,9 +87,17 @@ export default async function handler(req, res) {
     console.log("Clicking Other District Search button");
     await page.click("#btnOtherdistrictSearch");
 
+<<<<<<< HEAD
     console.log("Waiting for Year dropdown");
     await page.waitForSelector("#ddlFromYear1", { timeout: 40000 });
 
+=======
+    // Ensure dropdowns and fields are loaded before interacting
+    console.log("Waiting for Year dropdown");
+    await page.waitForSelector("#ddlFromYear1", { timeout: 40000 });
+
+    // ✅ **Take note of all inputs to refill after CAPTCHA**
+>>>>>>> 5d02fc4 (Initial commit)
     const formData = { year, district, tahsil, village, propertyNo };
 
     console.log("Waiting for Captcha...");
@@ -95,10 +111,18 @@ export default async function handler(req, res) {
     const captchaPath = process.platform === "win32" ? "./captcha.png" : "/tmp/captcha.png";
     await captchaElement.screenshot({ path: captchaPath });
 
+<<<<<<< HEAD
+=======
+    // ✅ **Extract CAPTCHA before filling the form**
+>>>>>>> 5d02fc4 (Initial commit)
     const { data: { text } } = await Tesseract.recognize(captchaPath, "eng");
     const captchaText = text.replace(/\s/g, "").trim();
     console.log("Recognized Captcha:", captchaText);
 
+<<<<<<< HEAD
+=======
+    // ✅ **Now fill the form AFTER CAPTCHA is ready**
+>>>>>>> 5d02fc4 (Initial commit)
     console.log("Filling in form after CAPTCHA...");
     await page.select("#ddlFromYear1", formData.year);
     await page.evaluate(() => {
@@ -248,9 +272,17 @@ export default async function handler(req, res) {
         const row = rows[i];
         const button = await row.$("td:last-child input[type='button']");
 
+<<<<<<< HEAD
         if (button && await button.evaluate(el => el.isConnected)) {
           console.log("🔍 Clicking button in row...");
 
+=======
+        // Ensure button exists and is connected to the DOM
+        if (button && await button.evaluate(el => el.isConnected)) {
+          console.log("🔍 Clicking button in row...");
+
+          // Detect new tab
+>>>>>>> 5d02fc4 (Initial commit)
           const [newPage] = await Promise.all([
             new Promise(resolve => browser.once("targetcreated", async target => {
               const newTab = await target.page();

@@ -5,7 +5,11 @@ import SearchForm from "./components/SearchForm";
 export default function Home() {
   return (
     <div className={styles.page}>
+<<<<<<< HEAD
       <SearchForm/>       
+=======
+      <SearchForm/>
+>>>>>>> 5d02fc4 (Initial commit)
     </div>
   );
 }

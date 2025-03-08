@@ -5,15 +5,29 @@
 
   --button-primary-hover: #383838;
   --button-secondary-hover: #f2f2f2;
+<<<<<<< HEAD
 
   grid-template-rows: 20px 1fr 20px;
   align-items: center;
   justify-items: center;
   min-height: 100vh;
   gap: 64px;
+=======
+  background-color: #272727;
+  align-items: center;
+  justify-items: center;
+  min-height: 100svh;
+>>>>>>> 5d02fc4 (Initial commit)
   font-family: var(--font-geist-sans);
+  color: white;
 }
 
+.download-btns{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 @media (prefers-color-scheme: dark) {
   .page {
     --gray-rgb: 255, 255, 255;
@@ -104,6 +118,13 @@ a.secondary {
 
 .footer img {
   flex-shrink: 0;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Enable hover only on non-touch devices */
